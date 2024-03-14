@@ -1,4 +1,5 @@
-// store/auth.js
+import axios from 'axios';
+// store / auth.js
 const state = {
   user: null,
   isAuthenticated: !!localStorage.getItem('authenticated'),
@@ -19,16 +20,27 @@ const mutations = {
 }
 
 const actions = {
-  login({ commit }, { username, password }) {
-    // In a real-world scenario, validate the credentials with a backend
-    if (username === 'demo' && password === 'password') {
-      commit('setUser', { username })
-      commit('setAuthentication', true)
-      return true
-    } else {
-      return false
+  async login({ commit }, { email, password }) {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/login', { email, password });
+        const { token } = response.data;
+        
+        // Fetch user details using the obtained token
+        const userResponse = await axios.get('http://127.0.0.1:8000/api/logged_user', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const user = userResponse.data;
+        commit('setUser', user);
+        commit('setAuthentication', true);
+        return true;
+    } catch (error) {
+        console.error('Login failed', error);
+        return false;
     }
-  },
+},
   logout({ commit }) {
     commit('setUser', null)
     commit('setAuthentication', false)

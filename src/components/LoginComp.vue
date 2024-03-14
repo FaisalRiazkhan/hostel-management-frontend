@@ -15,7 +15,7 @@
 
                     <v-card-text>
                         <v-form @submit.prevent="handleLogin">
-                            <v-text-field density="compact" clearable prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="username" label="Username" required></v-text-field>
+                            <v-text-field density="compact" clearable prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="email" label="Email Address" required></v-text-field>
                             <v-text-field density="compact" clearable prepend-inner-icon="mdi-form-textbox-password" variant="outlined" v-model="password" label="Password" type="password" required></v-text-field>
 
                             <!-- Use v-row and v-col for button layout -->
@@ -42,10 +42,11 @@
 import {
     mapActions
 } from 'vuex';
+import axios from 'axios';
 export default {
     data() {
         return {
-            username: "",
+            email: "",
             password: "",
             errorMessage: ""
         };
@@ -53,12 +54,31 @@ export default {
     methods: {
         ...mapActions('auth', ['login']),
         async handleLogin() {
-            if (!this.username || !this.password) {
-                this.errorMessage = "Please enter both username and password.";
+            if (!this.email || !this.password) {
+                this.errorMessage = "Please enter both email address and password.";
                 return;
             }
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/login', {
+                    email: this.email, // Assuming email is used for login
+                    password: this.password
+                });
+                const {
+                    token
+                } = response.data;
+                // Save token to localStorage or Vuex for future requests
+
+                // Redirect to the dashboard page after successful login
+                this.$router.push('/dashboard');
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    this.errorMessage = "Invalid email or password."
+                } else {
+                    this.errorMessage = "Something goes wrong. Please try again later."
+                }
+            }
             const success = await this.login({
-                username: this.username,
+                email: this.email,
                 password: this.password
             });
             if (success) {

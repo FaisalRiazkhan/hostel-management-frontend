@@ -8,19 +8,6 @@
                     <v-card-title class="headline text-center">
                         <v-icon>mdi-account-plus</v-icon> Sign Up
                     </v-card-title>
-                    <!-- <v-alert v-if="Object.keys(errorList).length > 0" type="error" dismissible  outlined>
-                        <v-row>
-                            <v-col  cols="12" >
-                                <v-row style="margin-bottom: 1px;">
-                                    <v-col cols="12" v-for="(error, index) in errorList" :key="index">
-                                        {{ error[0] }}
-                                    </v-col>
-                                </v-row>
-                            </v-col>
-                        </v-row>
-                    </v-alert> -->
-                    <!-- <v-alert>{{ errorMessages }}</v-alert> -->
-                    <!-- comment -->
                     <v-divider></v-divider>
                     <v-card-text>
                         <v-form>
@@ -87,11 +74,10 @@
 
 </div>
 </template>
-
 <script>
 import axios from 'axios';
 export default {
-    name: 'SingupCompVue',
+    name: 'SignupCompVue',
     data() {
         return {
             errorList: '',
