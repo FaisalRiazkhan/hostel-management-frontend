@@ -1,7 +1,12 @@
 <template>
 <div class="main-container">
-    <div class="overlay"></div>
+    <video autoplay muted loop id="video-bg">
+        <source src="../assets/images/background2.mp4" type="video/mp4" />
+        <!-- Include additional source elements for different video formats -->
+        Your browser does not support the video tag.
+    </video>
     <v-container class="login-container">
+
         <v-row>
             <v-col cols="12" sm="8" md="4">
                 <v-card class="login-wrapper">
@@ -17,7 +22,7 @@
                                     <span class="error-message" v-if="errorList['first_name']">{{ errorList['first_name'][0] }}</span>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6" class="f1">
-                                    <v-text-field clearable :rules="rules" hide-details="auto" density="compact" prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="model.newUser.last_name" label="Last Name" required ></v-text-field>
+                                    <v-text-field clearable :rules="rules" hide-details="auto" density="compact" prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="model.newUser.last_name" label="Last Name" required></v-text-field>
                                     <span class="error-message" v-if="errorList['last_name']">{{ errorList['last_name'][0] }}</span>
                                 </v-col>
                             </v-row>
@@ -37,14 +42,14 @@
                                     <span class="error-message" v-if="errorList['phone_number']">{{ errorList['phone_number'][0] }}</span>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6" class="f1">
-                                    <v-text-field density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.password" label="Password" type="password"  required></v-text-field>
+                                    <v-text-field density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.password" label="Password" type="password" required></v-text-field>
                                     <span class="error-message" v-if="errorList['password']">{{ errorList['password'][0] }}</span>
                                 </v-col>
                             </v-row>
 
                             <v-text-field class="confirm-password" density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.password_confirmation" label="Confirm Password" type="password" required></v-text-field>
                             <span class="error-message" v-if="errorList['password']">{{ errorList['password'][0] }}</span>
-                            
+
                             <v-btn @click.prevent="registerUser" class="create-account-btn" variant="elevated" elevation="10" size="small" color="success" rounded="lg" type="submit">Create</v-btn>
 
                             <v-divider class="border-opacity-100" :thickness="1" color="warning"> </v-divider>
@@ -71,6 +76,7 @@
 
 </div>
 </template>
+
 <script>
 import axios from 'axios';
 export default {
@@ -128,10 +134,23 @@ export default {
 </script>
 
 <style scoped>
-.confirm-password{
-    margin-top: 25px;
-   /* margin-bottom: 22px; */
+#video-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures the video covers the entire screen */
+    z-index: -1;
+    opacity: 90%;
 }
+
+.confirm-password {
+    margin-top: 25px;
+    /* margin-bottom: 22px; */
+}
+
 .error-message {
     color: red;
     font-size: 10px;
@@ -145,7 +164,7 @@ template {
 }
 
 .main-container {
-    background-image: url('../assets/images/background2.png');
+    background-image: url('../assets/images/');
     /* background-color: #023047; */
     /* Replace with the path to your background image */
     background-size: cover;
@@ -160,7 +179,7 @@ template {
     /* Replace with the path to your image */
     background-size: cover;
     opacity: 90%;
-    right:30%;
+    right: 30%;
     background-position: center;
     color: #023047;
     /* Adjust the text color to be visible on the background */
