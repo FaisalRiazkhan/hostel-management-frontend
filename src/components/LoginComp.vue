@@ -15,7 +15,7 @@
 
                     <v-card-text>
                         <v-form @submit.prevent="handleLogin">
-                            <v-text-field density="compact" clearable prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="email" label="Email Address" required></v-text-field>
+                            <v-text-field density="compact" clearable prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="email" label="Email Address" type="email" required></v-text-field>
                             <v-text-field density="compact" clearable prepend-inner-icon="mdi-form-textbox-password" variant="outlined" v-model="password" label="Password" type="password" required></v-text-field>
 
                             <!-- Use v-row and v-col for button layout -->
@@ -87,7 +87,7 @@ export default {
             } else {
                 // Handle login failure (show error message, etc.)
                 // console.log('Login failed');
-                this.errorMessage = "Invalid username or password.";
+                this.errorMessage = "Invalid email or password.";
             }
         },
         redirecToSignup() {
@@ -105,7 +105,7 @@ template {
 }
 
 .main-container {
-    background-image: url('../assets/images/background4.jpg');
+    background-image: url('../assets/images/background2.png');
     /* Replace with the path to your background image */
     background-size: cover;
     background-position: center;

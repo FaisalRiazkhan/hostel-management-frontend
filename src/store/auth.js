@@ -24,7 +24,7 @@ const actions = {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/login', { email, password });
         const { token } = response.data;
-        
+        commit('setToken', token);
         // Fetch user details using the obtained token
         const userResponse = await axios.get('http://127.0.0.1:8000/api/logged_user', {
             headers: {
@@ -41,15 +41,28 @@ const actions = {
         return false;
     }
 },
-  logout({ commit }) {
-    commit('setUser', null)
-    commit('setAuthentication', false)
+async logout({ commit, getters }) {
+  try {
+    const token = getters.token; // Assuming you have a getter for retrieving the authentication token
+    await axios.post('http://127.0.0.1:8000/api/logout', {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    // Clear user data and authentication flag from the state
+    commit('setUser', null);
+    commit('setAuthentication', false);
+  } catch (error) {
+    console.error('Logout failed', error);
   }
+}
 }
 
 const getters = {
-  user: (state) => state.user,
-  isAuthenticated: (state) => state.isAuthenticated
+  // user: (state) => state.user,
+  isAuthenticated: (state) => state.isAuthenticated,
+  token: (state) => state.token
 }
 
 export default {

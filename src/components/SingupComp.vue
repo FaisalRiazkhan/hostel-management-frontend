@@ -13,41 +13,38 @@
                         <v-form>
                             <v-row>
                                 <v-col cols="12" sm="6" md="6" class="f1">
+                                    <v-text-field class="input" :rules="rules" hide-details="auto" clearable density="compact" prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="model.newUser.first_name" label="First Name" required></v-text-field>
                                     <span class="error-message" v-if="errorList['first_name']">{{ errorList['first_name'][0] }}</span>
-                                    <v-text-field class="input" clearable density="compact" prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="model.newUser.first_name" label="First Name" required></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6" class="f1">
+                                    <v-text-field clearable :rules="rules" hide-details="auto" density="compact" prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="model.newUser.last_name" label="Last Name" required ></v-text-field>
                                     <span class="error-message" v-if="errorList['last_name']">{{ errorList['last_name'][0] }}</span>
-                                    <v-text-field clearable density="compact" prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="model.newUser.last_name" label="Last Name" required ></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" sm="6" md="6" class="f1">
+                                    <v-text-field density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-id-card" variant="outlined" v-model="model.newUser.national_id_no" label="CNIC" placeholder="0000011111112" required></v-text-field>
                                     <span class="error-message" v-if="errorList['national_id_no']">{{ errorList['national_id_no'][0] }}</span>
-                                    <v-text-field density="compact" clearable prepend-inner-icon="mdi-id-card" variant="outlined" v-model="model.newUser.national_id_no" label="CNIC" placeholder="0000011111112" required></v-text-field>
-
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6" class="f1">
+                                    <v-text-field density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-email-variant" variant="outlined" v-model="model.newUser.email" label="Email Address" placeholder="johndoe@gmail.com" type="email" required></v-text-field>
                                     <span class="error-message" v-if="errorList['email']">{{ errorList['email'][0] }}</span>
-                                    <v-text-field density="compact" clearable prepend-inner-icon="mdi-email-variant" variant="outlined" v-model="model.newUser.email" label="Email Address" placeholder="johndoe@gmail.com" type="email" required></v-text-field>
-
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" sm="6" md="6" class="f1">
+                                    <v-text-field density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.phone_number" label="Phone Number" placeholder="+920001111111" required></v-text-field>
                                     <span class="error-message" v-if="errorList['phone_number']">{{ errorList['phone_number'][0] }}</span>
-                                    <v-text-field density="compact" clearable prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.phone_number" label="Phone Number" placeholder="+920001111111" required></v-text-field>
-
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6" class="f1">
+                                    <v-text-field density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.password" label="Password" type="password"  required></v-text-field>
                                     <span class="error-message" v-if="errorList['password']">{{ errorList['password'][0] }}</span>
-                                    <v-text-field density="compact" clearable prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.password" label="Password" type="password" required></v-text-field>
-
                                 </v-col>
                             </v-row>
 
+                            <v-text-field class="confirm-password" density="compact" clearable :rules="rules" hide-details="auto" prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.password_confirmation" label="Confirm Password" type="password" required></v-text-field>
                             <span class="error-message" v-if="errorList['password']">{{ errorList['password'][0] }}</span>
-                            <v-text-field density="compact" clearable prepend-inner-icon="mdi-cellphone" variant="outlined" v-model="model.newUser.password_confirmation" label="Confirm Password" type="password" required></v-text-field>
+                            
                             <v-btn @click.prevent="registerUser" class="create-account-btn" variant="elevated" elevation="10" size="small" color="success" rounded="lg" type="submit">Create</v-btn>
 
                             <v-divider class="border-opacity-100" :thickness="1" color="warning"> </v-divider>
@@ -131,6 +128,10 @@ export default {
 </script>
 
 <style scoped>
+.confirm-password{
+    margin-top: 25px;
+   /* margin-bottom: 22px; */
+}
 .error-message {
     color: red;
     font-size: 10px;
@@ -144,10 +145,10 @@ template {
 }
 
 .main-container {
-    background-image: url('../assets/images/background4.jpg');
+    background-image: url('../assets/images/background2.png');
+    /* background-color: #023047; */
     /* Replace with the path to your background image */
     background-size: cover;
-    background-position: center;
     background-repeat: no-repeat;
     display: flex;
     height: 100vh;
@@ -174,7 +175,9 @@ template {
 .create-account-btn {
     width: 150px;
     margin-left: 40%;
-    margin-bottom: 10px;
+    top: 28px;
+    left: 33%;
+    /* margin-bottom: 10px; */
 }
 
 .input {

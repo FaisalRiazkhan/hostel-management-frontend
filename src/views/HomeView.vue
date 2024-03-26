@@ -37,7 +37,7 @@
             </template>
             <v-list>
                 <v-list-item density="compact" class="menu-item" v-for="(item, index) in items" :key="index">
-                    <v-list-item-title size="small" @click="logout">{{ item.title }}</v-list-item-title>
+                    <v-list-item-title size="small" @click="handleLogout">{{ item.title }}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-menu>
@@ -78,6 +78,7 @@ import AdmissionForm from '@/components/Students/AdmissionForm.vue';
 import ListStudents from '@/components/Students/ListStudents.vue';
 import RoomDetails from '@/components/RoomManagement/RoomDetails.vue';
 import HostelMess from '@/components/MessManagement/HostelMess.vue';
+import { mapActions } from 'vuex';
 
 export default {
     data() {
@@ -121,15 +122,24 @@ export default {
         },
     },
     methods: {
+    ...mapActions('auth', ['logout']),
+
         selectTab(tab) {
             this.selectedTab = tab;
         },
-        logout() {
-            localStorage.clear();
-            this.$router.push({
-                name: 'login'
-            });
+        async handleLogout() {
+        try {
+            // Dispatch the 'logout' action with the token
+            await this.logout(this.$store.getters['auth/token']);
+            
+            // Clear any user-related data in your component
+            // Redirect to the login page or do any other necessary actions
+            this.$router.push({ name: 'login' }); // Redirect to the login page
+        } catch (error) {
+            console.error('Logout failed', error);
+            // Handle logout failure if needed
         }
+    }
     }
 };
 </script>
