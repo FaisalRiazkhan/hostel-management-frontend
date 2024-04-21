@@ -91,7 +91,7 @@ export default {
         return
       }
       try {
-        const response = await axios.post(import.meta.env.VITE_API_URL + 'login', {
+        const response = await axios.post('login', {
           email: this.email, // Assuming email is used for login
           password: this.password
         })

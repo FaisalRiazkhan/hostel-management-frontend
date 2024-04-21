@@ -11,7 +11,7 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import store from './store';
 import "@mdi/font/css/materialdesignicons.css";
-axios.defaults.baseURL = 'http://localhost:8000/api/';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 const app = createApp(App);
 
 const vuetify = createVuetify({
