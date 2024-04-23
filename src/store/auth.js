@@ -1,7 +1,6 @@
 import axios from 'axios';
 // store / auth.js
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const state = {
   user: null,
   isAuthenticated: !!localStorage.getItem('authenticated'),
@@ -24,11 +23,11 @@ const mutations = {
 const actions = {
   async login({ commit }, { email, password }) {
     try {
-        const response = await axios.post(apiUrl + 'login', { email, password });
+        const response = await axios.post('login', { email, password });
         const { token } = response.data;
         commit('setToken', token);
         // Fetch user details using the obtained token
-        const userResponse = await axios.get(apiUrl + 'logged_user', {
+        const userResponse = await axios.get('logged_user', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -46,7 +45,7 @@ const actions = {
 async logout({ commit, getters }) {
   try {
     const token = getters.token; // Assuming you have a getter for retrieving the authentication token
-    await axios.post(apiUrl + 'logout', {}, {
+    await axios.post('logout', {}, {
       headers: {
         Authorization: `Bearer ${token}`
       }

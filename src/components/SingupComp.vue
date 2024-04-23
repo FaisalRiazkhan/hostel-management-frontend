@@ -100,7 +100,7 @@ export default {
     },
     methods: {
         registerUser() {
-            axios.post(import.meta.env.VITE_API_URL + 'register', this.model.newUser)
+            axios.post('register', this.model.newUser)
                 .then(res => {
                     console.log(res);
                     alert(res.data.message);
