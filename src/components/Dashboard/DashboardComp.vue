@@ -28,7 +28,7 @@
         <v-col cols="12" md="3">
             <v-sheet class="piechart-sheet">
                 <h3>Rent Status</h3>
-                <v-divider  :thickness="1"  color="warning" class="border-opacity-25"></v-divider>
+                <v-divider :thickness="1" color="warning" class="border-opacity-25"></v-divider>
                 <canvas id="myPieChart"></canvas>
             </v-sheet>
         </v-col>
@@ -39,10 +39,12 @@
 
 <script>
 import Chart from 'chart.js/auto';
+
+
 export default {
     data() {
         return {
-
+         
         }
     },
     mounted() {
@@ -116,9 +118,10 @@ export default {
 </script>
 
 <style scoped>
-.piechart-sheet{
+.piechart-sheet {
     color: whitesmoke;
 }
+
 .db-container {
     /* background-color: aqua; */
 }
@@ -136,6 +139,7 @@ export default {
     text-align: center;
     font-size: large;
 }
+
 #myBarChart {
     height: 800px;
 }
