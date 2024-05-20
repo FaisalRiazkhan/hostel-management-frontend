@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ props }">
-                    <v-btn   prepend-icon="mdi-plus-circle" variant="outlined" density="compact" id="btn-addRoom" v-bind="props">
+                    <v-btn v-if="hasPermission('user_create_rooms')"  prepend-icon="mdi-plus-circle" variant="outlined" density="compact" id="btn-addRoom" v-bind="props">
                         Add Room
                     </v-btn>
                 </template>
@@ -60,10 +60,10 @@
         </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-        <v-icon size="small" class="me-2" @click="editItem(item)">
+        <v-icon v-if="hasPermission('user_update_rooms')" size="small" class="me-2" @click="editItem(item)">
             mdi-pencil
         </v-icon>
-        <v-icon size="small" @click="deleteItem(item)">
+        <v-icon v-if="hasPermission('user_delete_rooms')" size="small" @click="deleteItem(item)">
             mdi-delete
         </v-icon>
     </template>
@@ -77,6 +77,7 @@
 
   
 <script>
+import { mapGetters } from 'vuex';
 export default {
     data: () => ({
         dialog: false,
@@ -126,6 +127,7 @@ export default {
     }),
 
     computed: {
+        ...mapGetters('auth', ['hasPermission']),
         formTitle() {
             return this.editedIndex === -1 ? 'Add Room' : 'Edit Room Information'
         },

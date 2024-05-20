@@ -14,7 +14,7 @@
     </v-row>
     <v-row>
         <v-col cols="12" md="12" style="display: flex;">
-            <AddRoomComp />
+            <AddRoomComp  />
         </v-col>
     </v-row>
 
@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import AddRoomComp from './AddRoomComp.vue'; // Import the dialog component
+import AddRoomComp from './AddRoomComp.vue'; 
+import { mapGetters } from 'vuex';
 export default {
     components: {
         AddRoomComp
@@ -42,6 +43,9 @@ export default {
         };
 
     },
+    computed: {
+       ...mapGetters('auth', ['hasPermission']),
+    },
     methods: {
 
     }
@@ -49,13 +53,6 @@ export default {
 </script>
 
 <style scoped>
-/* Add your scoped styles here if needed */
-.room-container {}
-
-.title-header {
-    /* background-color: #e3dfffff; */
-}
-
 
 .v-row {
     /* margin: -7px; */

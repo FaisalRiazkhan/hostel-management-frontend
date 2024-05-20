@@ -1,8 +1,9 @@
 <template>
 <VApp class="rounded rounded-md">
     <!-- Navigation Side Bar -->
-    <VNavigationDrawer v-model="drawer" :rail="rail" permanent @click="rail = false" style="background-color: #083049ff;">
-        <v-list-item prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg" title="Faisal riaz" subtitle="Faisal_riaz@gmailcom" nav style="color: #f8f9fa;">
+    
+    <VNavigationDrawer v-if="isAdmin" v-model="drawer" :rail="rail" permanent @click="rail = false" style="background-color: #083049ff;">
+        <v-list-item prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg" :title="userName" :subtitle="userEmail" nav style="color: #f8f9fa;">
             <template v-slot:append>
                 <VBtn id="toggle-nav" variant="text" icon="mdi-chevron-left" @click.stop="rail = !rail"></VBtn>
             </template>
@@ -11,23 +12,51 @@
 
         <v-list density="compact" nav class="nav-list">
             <v-list-item id="nav-item" @click="selectTab('dashboard')" prepend-icon="mdi-home-city" title="Dashboard" value="dashboard" :class="{ 'active-tab': selectedTab === 'dashboard'}"></v-list-item>
-            <v-list-group id="list-group" value="studentdetails">
+            <v-list-group v-if="isAdmin" id="list-group" value="studentdetails">
                 <template v-slot:activator="{ props }">
                     <v-list-item id="nav-item1" v-bind="props" prepend-icon="mdi-account-multiple-plus" title="Student Management" :class="{ 'active-tab': selectedTab === 'addStudent' ||  selectedTab === 'listStudent' }"></v-list-item>
                 </template>
 
-                    <v-list nav id="nav-list-group" density="compact">
-                        <v-list-item  id="nav-item" @click="selectTab('addStudent')" prepend-icon="mdi-account-plus-outline" title="Add Student" value="addStudent" :class="{ 'active-tab': selectedTab === 'addStudent'}"></v-list-item>
-                        <v-list-item  id="nav-item" @click="selectTab('listStudent')" prepend-icon="mdi-face-man" title="List Students" aria-valuemax="listStudent" :class="{ 'active-tab': selectedTab === 'listStudent'}"></v-list-item>
-                    </v-list>
+                <v-list nav id="nav-list-group" density="compact">
+                    <v-list-item id="nav-item" @click="selectTab('addStudent')" prepend-icon="mdi-account-plus-outline" title="Add Student" value="addStudent" :class="{ 'active-tab': selectedTab === 'addStudent'}"></v-list-item>
+                    <v-list-item id="nav-item" @click="selectTab('listStudent')" prepend-icon="mdi-face-man" title="List Students" aria-valuemax="listStudent" :class="{ 'active-tab': selectedTab === 'listStudent'}"></v-list-item>
+                </v-list>
 
             </v-list-group>
             <!-- <VListItem id="nav-item" @click="selectTab('addStudent')" prepend-icon="mdi-account-plus" title="Add Student" value="addStudent"></VListItem> -->
-            <v-list-item id="nav-item" @click="selectTab('roomDetails')" prepend-icon="mdi-account" title="Room Management" value="roomDetails" :class="{ 'active-tab': selectedTab === 'roomDetails'}"></v-list-item>
-            <v-list-item id="nav-item" @click="selectTab('hostelMess')" prepend-icon="mdi-account-group-outline" title="Mess Management" value="hostelMess" :class="{ 'active-tab': selectedTab === 'hostelMess'}"></v-list-item>
+            <v-list-item v-if="isAdmin" id="nav-item" @click="selectTab('roomDetails')" prepend-icon="mdi-account" title="Room Management" value="roomDetails" :class="{ 'active-tab': selectedTab === 'roomDetails'}"></v-list-item>
+            <v-list-item v-if="isAdmin" id="nav-item" @click="selectTab('hostelMess')" prepend-icon="mdi-account-group-outline" title="Mess Management" value="hostelMess" :class="{ 'active-tab': selectedTab === 'hostelMess'}"></v-list-item>
         </v-list>
     </VNavigationDrawer>
-<!-- header bar -->
+
+    <VNavigationDrawer v-if="isUser" v-model="drawer" :rail="rail" permanent @click="rail = false" style="background-color: #083049ff;">
+        <v-list-item prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg" :title="userName" :subtitle="userEmail" nav style="color: #f8f9fa;">
+            <template v-slot:append>
+                <VBtn id="toggle-nav" variant="text" icon="mdi-chevron-left" @click.stop="rail = !rail"></VBtn>
+            </template>
+        </v-list-item>
+        <v-divider />
+
+        <v-list density="compact" nav class="nav-list">
+            <v-list-item id="nav-item" @click="selectTab('dashboard')" prepend-icon="mdi-home-city" title="Dashboard" value="dashboard" :class="{ 'active-tab': selectedTab === 'dashboard'}"></v-list-item>
+            <!-- <v-list-group v-if="isAdmin" id="list-group" value="studentdetails">
+                <template v-slot:activator="{ props }">
+                    <v-list-item id="nav-item1" v-bind="props" prepend-icon="mdi-account-multiple-plus" title="Student Management" :class="{ 'active-tab': selectedTab === 'addStudent' ||  selectedTab === 'listStudent' }"></v-list-item>
+                </template>
+
+                <v-list nav id="nav-list-group" density="compact">
+                    <v-list-item id="nav-item" @click="selectTab('addStudent')" prepend-icon="mdi-account-plus-outline" title="Add Student" value="addStudent" :class="{ 'active-tab': selectedTab === 'addStudent'}"></v-list-item>
+                    <v-list-item id="nav-item" @click="selectTab('listStudent')" prepend-icon="mdi-face-man" title="List Students" aria-valuemax="listStudent" :class="{ 'active-tab': selectedTab === 'listStudent'}"></v-list-item>
+                </v-list>
+
+            </v-list-group> -->
+            <!-- <VListItem id="nav-item" @click="selectTab('addStudent')" prepend-icon="mdi-account-plus" title="Add Student" value="addStudent"></VListItem> -->
+            <v-list-item  id="nav-item" @click="selectTab('roomDetails')" prepend-icon="mdi-account" title="Room Management" value="roomDetails" :class="{ 'active-tab': selectedTab === 'roomDetails'}"></v-list-item>
+            <v-list-item  id="nav-item" @click="selectTab('hostelMess')" prepend-icon="mdi-account-group-outline" title="Mess Management" value="hostelMess" :class="{ 'active-tab': selectedTab === 'hostelMess'}"></v-list-item>
+        </v-list>
+    </VNavigationDrawer>
+
+    <!-- header bar -->
     <VAppBar class="appbar" id="appbartitle" :title="appBarTitle" style="background-color: #083049ff;">
         <v-menu>
             <template v-slot:activator="{ props }">
@@ -78,11 +107,18 @@ import AdmissionForm from '@/components/Students/AdmissionForm.vue';
 import ListStudents from '@/components/Students/ListStudents.vue';
 import RoomDetails from '@/components/RoomManagement/RoomDetails.vue';
 import HostelMess from '@/components/MessManagement/HostelMess.vue';
-import { mapActions } from 'vuex';
+import {
+    mapActions
+} from 'vuex';
+import {
+    mapGetters
+} from 'vuex';
 
 export default {
     data() {
         return {
+            isAdmin: false,
+            isUser: false,
             drawer: true,
             showDropdown: false,
             rail: true,
@@ -95,6 +131,9 @@ export default {
             ],
         };
     },
+    created() {
+        this.checkUserRole();
+    },
     components: {
         DashboardComp,
         AdmissionForm,
@@ -103,6 +142,21 @@ export default {
         ListStudents
     },
     computed: {
+        ...mapGetters('auth', ['isAuthenticated', 'user'],  ['hasPermission']),
+        userName() {
+            // console.log('User object:', this.user);
+            // console.log('username:', this.user.user.first_name); // Update property access
+            if (this.isAuthenticated && this.user) {
+                return `${this.user.user.first_name} ${this.user.user.last_name}`; // Update property access
+
+            } else {
+                return 'undefined username';
+            }
+        },
+        userEmail() {
+            return this.isAuthenticated ? this.user.user.email : '';
+        },
+
         appBarTitle() {
             // Derive the title based on the selected tab
             switch (this.selectedTab) {
@@ -122,24 +176,41 @@ export default {
         },
     },
     methods: {
-    ...mapActions('auth', ['logout']),
+        ...mapActions('auth', ['logout']),
 
         selectTab(tab) {
             this.selectedTab = tab;
         },
+
+        checkUserRole() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            // console.log('user data:', user);
+
+            if (user && user.role && user.role.length > 0) {
+                this.isAdmin = user.role.some(role => role === 'admin');
+                // console.log("check role",this.isAdmin);
+                this.isUser = user.role.some(role => role === 'user');
+            } else {
+                // Handle scenario where user object or roles are missing
+                console.warn('User data or roles not found in localStorage');
+            }
+        },
+
         async handleLogout() {
-        try {
-            // Dispatch the 'logout' action with the token
-            await this.logout(this.$store.getters['auth/token']);
-            
-            // Clear any user-related data in your component
-            // Redirect to the login page or do any other necessary actions
-            this.$router.push({ name: 'login' }); // Redirect to the login page
-        } catch (error) {
-            console.error('Logout failed', error);
-            // Handle logout failure if needed
+            try {
+                await this.$store.dispatch('auth/logout');
+                const token = this.$store.getters['auth/token'];
+                localStorage.removeItem('token', token);
+                localStorage.removeItem('authenticated');
+
+                this.$router.push({
+                    name: 'login'
+                }); // Redirect to the login page
+            } catch (error) {
+                console.error('Logout failed', error);
+                // Handle logout failure if needed
+            }
         }
-    }
     }
 };
 </script>
@@ -179,7 +250,7 @@ export default {
 }
 
 #list-group:hover {
- background-color: rgb(4, 13, 119);
+    background-color: rgb(4, 13, 119);
     margin-left: 2px;
     /* margin-top: 8px; */
 }
@@ -286,6 +357,7 @@ export default {
     background-color: #020D47;
     position: relative;
 }
+
 #btn-p::v-deep(.v-btn__content) {
     color: whitesmoke;
     position: relative;

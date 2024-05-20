@@ -18,7 +18,7 @@
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="800px">
                         <template v-slot:activator="{ props }">
-                            <v-btn  prepend-icon="mdi-plus-circle" variant="outlined" density="compact" id="btn-additem" v-bind="props">
+                            <v-btn v-if="hasPermission('user_create_menu')" prepend-icon="mdi-plus-circle" variant="outlined" density="compact" id="btn-additem" v-bind="props">
                                 Add
                             </v-btn>
                             <v-btn @click="generatePDF" prepend-icon="mdi-file-pdf-box" variant="outlined" density="compact" id="btn-generatePdf">
@@ -85,8 +85,8 @@
                 </v-toolbar>
             </template>
             <template v-slot:[`item.actions`]="{ item }">
-                <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
-                <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
+                <v-icon  size="small" class="me-2" @click="editItem(item)"  v-if="hasPermission('user_update_menu')"> mdi-pencil </v-icon>
+                <v-icon size="small" @click="deleteItem(item)" v-if="hasPermission('user_delete_menu')"> mdi-delete </v-icon>
             </template>
             <template v-slot:no-data>
                 <v-btn color="primary" @click="initialize"> Reset </v-btn>
@@ -101,6 +101,7 @@ import {
     jsPDF
 } from "jspdf";
 import autoTable from 'jspdf-autotable'
+import { mapGetters } from 'vuex';
 
 export default {
     data() {
@@ -188,9 +189,10 @@ export default {
         }
     },
     computed: {
+        ...mapGetters('auth', ['hasPermission']),
         formTitle() {
             return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-        }
+        },
     },
 
     watch: {
@@ -204,6 +206,9 @@ export default {
 
     created() {
         this.initialize()
+        if (this.$store.getters['auth/isAuthenticated']) {
+         this.$store.dispatch('auth/fetchUser');
+    }
     },
 
     methods: {
