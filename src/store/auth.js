@@ -1,5 +1,6 @@
 import axios from 'axios'
 // store / auth.js
+
 const state = {
   user: JSON.parse(localStorage.getItem('user')) || null,
   isAuthenticated: localStorage.getItem('authenticated') === 'true',
@@ -47,15 +48,15 @@ const mutations = {
 const actions = {
   async login({ commit }, { email, password }) {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/login', { email, password })
-      const { token } = response.data
-      commit('setToken', token)
-      // Fetch user details using the obtained token
-      const userResponse = await axios.get('http://127.0.0.1:8000/api/logged_user', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+        const response = await axios.post('login', { email, password });
+        const { token } = response.data;
+        commit('setToken', token);
+        // Fetch user details using the obtained token
+        const userResponse = await axios.get('logged_user', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
       const user = userResponse.data
       // console.log('user data on login:', user);
@@ -99,7 +100,7 @@ const actions = {
       if (!token) {
         throw new Error('Authentication token is not available')
       }
-      const response = await axios.get('http://127.0.0.1:8000/api/logged_user', {
+      const response = await axios.get('logged_user', {
         headers: {
           Authorization: `Bearer ${token}`
         }
