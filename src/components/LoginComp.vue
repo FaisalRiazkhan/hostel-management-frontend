@@ -47,13 +47,37 @@ import {
     mapActions
 } from 'vuex'
 export default {
-    data() {
-        return {
-            email: '',
-            password: '',
-            errorMessage: ''
-        }
-    },
+  data() {
+    return {
+      email: '',
+      password: '',
+      errorMessage: ''
+    }
+  },
+//   methods: {
+//     ...mapActions('auth', ['login']),
+//     async handleLogin() {
+//       if (!this.email || !this.password) {
+//         this.errorMessage = 'Please enter both email address and password.'
+//         return
+//       }
+//       try {
+//         const response = await axios.post('login', {
+//           email: this.email, // Assuming email is used for login
+//           password: this.password
+//         })
+//         const { token } = response.data
+//         // Save token to localStorage or Vuex for future requests
+
+//         // Redirect to the dashboard page after successful login
+//         this.$router.push('/dashboard')
+//       } catch (error) {
+//         if (error.response && error.response.status === 401) {
+//           this.errorMessage = 'Invalid email or password.'
+//         } else {
+//           this.errorMessage = 'Something goes wrong. Please try again later.'
+//         }
+//     },
     methods: {
         ...mapActions('auth', ['login']),
         async handleLogin() {
