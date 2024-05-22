@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LoginComp from '../components/LoginComp.vue'
+// import LoginComp from '../views/LoginComp.vue'
+import LoginPage from '../views/LoginPage.vue'
 import store from '../store';
-import SingupCompVue from '@/components/SingupComp.vue';
+import RegistrationPage from '@/views/RegistrationPage.vue';
 import ListStudents from '@/components/Students/ListStudents.vue';
 
 const router = createRouter({
@@ -11,7 +12,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
-      component: LoginComp
+      component: LoginPage
     },
     {
       path: '/dashboard',
@@ -22,7 +23,7 @@ const router = createRouter({
     {
       path: '/signup',
       name: 'signup',
-      component: SingupCompVue
+      component: RegistrationPage
     },
     {
       path: '/studentlist',
