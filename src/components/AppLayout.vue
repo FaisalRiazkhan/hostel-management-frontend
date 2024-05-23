@@ -1,7 +1,45 @@
 <template>
     <VApp class="rounded rounded-md">
-        <!-- header bar -->
-        <!-- <VAppBar class="appbar" id="appbartitle" :title="appBarTitle" style="background-color: #083049ff;">
+        <!-- Navigation Side Bar -->
+        <VNavigationDrawer  v-model="drawer" :rail="rail" permanent @click="rail = false"
+            style="background-color: #083049ff;">
+            <v-list-item prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg" :title="userName"
+                :subtitle="userEmail" nav style="color: #f8f9fa;">
+                <template v-slot:append>
+                    <VBtn id="toggle-nav" variant="text" icon="mdi-chevron-left" @click.stop="rail = !rail"></VBtn>
+                </template>
+            </v-list-item>
+            <v-divider />
+
+            <v-list density="compact" nav class="nav-list">
+                <router-link to="/dashboard" custom v-slot="{ href, navigate, isActive }">
+                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-apps"
+                        title="Dashboard" :class="{ 'active-tab': isActive }">
+                    </v-list-item>
+                </router-link>
+
+                <router-link v-if="isAdmin" to="/student-management" custom v-slot="{ href, navigate, isActive }">
+                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-account-circle-outline"
+                        title="Student Management" :class="{ 'active-tab': isActive }">
+                    </v-list-item>
+                </router-link>
+
+                <router-link v-if="isAdmin || isUser" to="/room-management" custom v-slot="{ href, navigate, isActive }">
+                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-bed-outline "
+                        title="Room Management" :class="{ 'active-tab': isActive }">
+                    </v-list-item>
+                </router-link>
+
+                <router-link v-if="isAdmin || isUser" to="/mess-management" custom v-slot="{ href, navigate, isActive }">
+                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-food-outline"
+                        title="Mess Management" :class="{ 'active-tab': isActive }">
+                    </v-list-item>
+                </router-link>
+            </v-list>
+        </VNavigationDrawer>
+
+        <!-- Header bar -->
+        <VAppBar class="appbar" id="appbartitle" :title="appBarTitle" style="background-color: #083049ff;">
             <v-menu>
                 <template v-slot:activator="{ props }">
                     <v-btn id="btn-p" flat v-bind="props" variant="outlined" size="small" prepend-icon="mdi-menu-down">
@@ -14,47 +52,17 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-        </VAppBar> -->
+        </VAppBar>
 
+        <!-- Main content area -->
         <VMain class="d-flex align-center justify-center" style="min-height: 250px; background-color: #e3dfffff;">
-            <!-- Conditional rendering based on selected tab -->
-            <template v-if="selectedTab === 'dashboard'">
-                <!-- Content for Home tab -->
-                <DashboardComp />
-            </template>
-            <template v-else-if="selectedTab === 'addStudent'">
-                <!-- Content for Add Student tab -->
-                <AdmissionForm />
-            </template>
-            <template v-else-if="selectedTab === 'listStudent'">
-                <!-- Content for Add Student tab -->
-                <ListStudents />
-            </template>
-            <template v-else-if="selectedTab === 'roomDetails'">
-                <!-- Content for roomDetails tab -->
-                <RoomDetails />
-            </template>
-            <template v-else-if="selectedTab === 'RoomManagement'">
-                <!-- Content for roomDetails tab -->
-                <RoomManagement />
-            </template>
-            <template v-else-if="selectedTab === 'hostelMess'">
-                <!-- Content for hostelMess tab -->
-                <HostelMess />
-            </template>
-
+            <slot></slot>
         </VMain>
     </VApp>
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import DashboardComp from '@/components/Dashboard/DashboardComp.vue';
-import AdmissionForm from '@/components/Students/AdmissionForm.vue';
-import ListStudents from '@/components/Students/ListStudents.vue';
-import RoomDetails from '@/components/RoomManagement/RoomDetails.vue';
-import RoomManagement from '@/views/RoomManagement.vue';
-import HostelMess from '@/components/MessManagement/HostelMess.vue';
+
 import {
     mapActions
 } from 'vuex';
@@ -73,7 +81,7 @@ export default {
             selectedTab: 'dashboard', // Default selected tab
             items: [{
                 title: 'Logout'
-            },],
+            }],
             locations: [
                 'bottom',
             ],
@@ -82,19 +90,9 @@ export default {
     created() {
         this.checkUserRole();
     },
-    components: {
-        DashboardComp,
-        AdmissionForm,
-        RoomDetails,
-        HostelMess,
-        ListStudents,
-        RoomManagement
-    },
     computed: {
         ...mapGetters('auth', ['isAuthenticated', 'user'], ['hasPermission']),
         userName() {
-            // console.log('User object:', this.user);
-            // console.log('username:', this.user.user.first_name); // Update property access
             if (this.isAuthenticated && this.user) {
                 return `${this.user.user.first_name} ${this.user.user.last_name}`; // Update property access
 
@@ -111,8 +109,8 @@ export default {
             switch (this.selectedTab) {
                 case 'dashboard':
                     return 'Dashboard';
-                case 'addStudent':
-                    return 'Add Student';
+                case 'student-management':
+                    return 'Student Management';
                 case 'listStudent':
                     return 'Student List';
                 case 'roomDetails':
@@ -133,11 +131,8 @@ export default {
 
         checkUserRole() {
             const user = JSON.parse(localStorage.getItem('user'));
-            // console.log('user data:', user);
-
             if (user && user.role && user.role.length > 0) {
                 this.isAdmin = user.role.some(role => role === 'admin');
-                // console.log("check role",this.isAdmin);
                 this.isUser = user.role.some(role => role === 'user');
             } else {
                 // Handle scenario where user object or roles are missing
@@ -145,30 +140,26 @@ export default {
             }
         },
 
-        // async handleLogout() {
-        //     try {
-        //         await this.$store.dispatch('auth/logout');
-        //         const token = this.$store.getters['auth/token'];
-        //         localStorage.removeItem('token', token);
-        //         localStorage.removeItem('authenticated');
+        async handleLogout() {
+            try {
+                await this.$store.dispatch('auth/logout');
+                const token = this.$store.getters['auth/token'];
+                localStorage.removeItem('token', token);
+                localStorage.removeItem('authenticated');
 
-        //         this.$router.push({
-        //             name: 'login'
-        //         }); // Redirect to the login page
-        //     } catch (error) {
-        //         console.error('Logout failed', error);
-        //         // Handle logout failure if needed
-        //     }
-        // }
+                this.$router.push({
+                    name: 'login'
+                }); // Redirect to the login page
+            } catch (error) {
+                console.error('Logout failed', error);
+                // Handle logout failure if needed
+            }
+        }
     }
 };
 </script>
 
 <style scoped>
-/* 
-#toggle-nav:hover {
-    background-color: #022250ff;
-} */
 #toggle-nav {
     color: rgba(5, 20, 40, 0.404);
 }
@@ -182,13 +173,11 @@ export default {
     color: red;
 }
 
-/* .v-toolbar__content.v-toolbar-title */
 #appbartitle {
     color: whitesmoke;
 }
 
 #list-group {
-    /* background-color: #083049ff; */
     font-size: small;
     margin-left: -3px;
 }
@@ -201,7 +190,6 @@ export default {
 #list-group:hover {
     background-color: rgb(4, 13, 119);
     margin-left: 2px;
-    /* margin-top: 8px; */
 }
 
 #list-group::v-deep(.v-list-item__append) {
@@ -246,13 +234,10 @@ export default {
 
 .menu-item {
     cursor: pointer;
-    /* Change cursor to pointer on hover */
 }
 
 .menu-item:hover {
     background-color: rgb(4, 13, 119);
-
-    /* Change the background color on hover */
 }
 
 #nav-item {
@@ -261,10 +246,8 @@ export default {
 }
 
 #nav-item:hover {
-    /* background-color: #219ebc; */
     background-color: rgb(4, 13, 119);
     left: 2px;
-    /* top: 3px; */
 }
 
 #nav-item::v-deep(.v-list-item-title) {
@@ -280,8 +263,6 @@ export default {
 }
 
 #nav-item::v-deep(.v-list-item__overlay) {
-    /* Targets overlay within a specific component */
-    /* Custom styles here */
     background-color: #219ebc;
     position: relative;
 }
@@ -319,8 +300,5 @@ export default {
 
 .active-tab {
     background-color: #022250ff;
-    /* Set the background color for active tab */
-    /* color: whitesmoke; */
-    /* Set text color for active tab */
 }
 </style>

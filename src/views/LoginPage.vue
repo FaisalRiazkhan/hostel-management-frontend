@@ -1,45 +1,51 @@
 <template>
-<div class="main-container">
-    <video autoplay muted loop id="video-bg">
-        <source src="../assets/images/background2.mp4" type="video/mp4" />
-        <!-- Include additional source elements for different video formats -->
-    </video>
-    <div class="overlay"></div>
-    <v-container class="login-container" fluid>
-        <v-row align="center" justify="center">
-            <v-col cols="12" sm="8" md="4">
-                <v-card class="login-wrapper">
-                    <v-card-title class="headline text-center">Login<v-icon>mdi-login</v-icon>
-                    </v-card-title>
-                    <v-alert v-if="errorMessage" density="compact" type="error" dismissible>
-                        {{ errorMessage }}
-                    </v-alert>
+    <div class="main-container">
+        <video autoplay muted loop id="video-bg">
+            <source src="../assets/images/background2.mp4" type="video/mp4" />
+            <!-- Include additional source elements for different video formats -->
+        </video>
+        <div class="overlay"></div>
+        <v-container class="login-container" fluid>
+            <v-row align="center" justify="center">
+                <v-col cols="12" sm="8" md="4">
+                    <v-card class="login-wrapper">
+                        <v-card-title class="headline text-center">Login<v-icon>mdi-login</v-icon>
+                        </v-card-title>
+                        <v-alert v-if="errorMessage" density="compact" type="error" dismissible>
+                            {{ errorMessage }}
+                        </v-alert>
 
-                    <v-divider class="border-opacity-100" :thickness="1" color="info"> </v-divider>
+                        <v-divider class="border-opacity-100" :thickness="1" color="info"> </v-divider>
 
-                    <v-card-text>
-                        <v-form @submit.prevent="handleLogin">
-                            <v-text-field density="compact" clearable prepend-inner-icon="mdi-account-arrow-right" variant="outlined" v-model="email" label="Email Address" type="email" required></v-text-field>
-                            <v-text-field density="compact" clearable prepend-inner-icon="mdi-form-textbox-password" variant="outlined" v-model="password" label="Password" type="password" required></v-text-field>
+                        <v-card-text>
+                            <v-form @submit.prevent="handleLogin">
+                                <v-text-field density="compact" clearable prepend-inner-icon="mdi-account-arrow-right"
+                                    variant="outlined" v-model="email" label="Email Address" type="email"
+                                    required></v-text-field>
+                                <v-text-field density="compact" clearable prepend-inner-icon="mdi-form-textbox-password"
+                                    variant="outlined" v-model="password" label="Password" type="password"
+                                    required></v-text-field>
 
-                            <!-- Use v-row and v-col for button layout -->
-                            <v-row>
-                                <v-col>
-                                    <router-link to="/signup" class="back-link">Register<v-icon>mdi-arrow-right-circle</v-icon>
-                                    </router-link>
-                                    <!-- <v-btn @click="redirecToSignup" class="signup-button" variant="elevated" elevation="10" size="small" color="primary" v type="submit">Create Account</v-btn> -->
-                                </v-col>
-                                <v-col>
-                                    <v-btn class="login-button" variant="elevated" elevation="10" size="small" color="success" rounded="lg" type="submit">Login</v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-form>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
-</div>
+                                <!-- Use v-row and v-col for button layout -->
+                                <v-row>
+                                    <v-col>
+                                        <router-link to="/signup"
+                                            class="back-link">Register<v-icon>mdi-arrow-right-circle</v-icon>
+                                        </router-link>
+                                        <!-- <v-btn @click="redirecToSignup" class="signup-button" variant="elevated" elevation="10" size="small" color="primary" v type="submit">Create Account</v-btn> -->
+                                    </v-col>
+                                    <v-col>
+                                        <v-btn class="login-button" variant="elevated" elevation="10" size="small"
+                                            color="success" rounded="lg" type="submit">Login</v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-form>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </div>
 </template>
 
 <script>
@@ -47,37 +53,13 @@ import {
     mapActions
 } from 'vuex'
 export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      errorMessage: ''
-    }
-  },
-//   methods: {
-//     ...mapActions('auth', ['login']),
-//     async handleLogin() {
-//       if (!this.email || !this.password) {
-//         this.errorMessage = 'Please enter both email address and password.'
-//         return
-//       }
-//       try {
-//         const response = await axios.post('login', {
-//           email: this.email, // Assuming email is used for login
-//           password: this.password
-//         })
-//         const { token } = response.data
-//         // Save token to localStorage or Vuex for future requests
-
-//         // Redirect to the dashboard page after successful login
-//         this.$router.push('/dashboard')
-//       } catch (error) {
-//         if (error.response && error.response.status === 401) {
-//           this.errorMessage = 'Invalid email or password.'
-//         } else {
-//           this.errorMessage = 'Something goes wrong. Please try again later.'
-//         }
-//     },
+    data() {
+        return {
+            email: '',
+            password: '',
+            errorMessage: ''
+        }
+    },
     methods: {
         ...mapActions('auth', ['login']),
         async handleLogin() {
