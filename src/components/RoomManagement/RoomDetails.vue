@@ -18,12 +18,6 @@
         </v-col>
     </v-row>
 
-    <!-- <v-sheet class="table-sheet">
-        <v-data-table :headers="headers" :items="items" item-key="name" class="data-table" density="compact" items-per-page="5" height="220px" fixed-header>
-            <template v-slot:top>
-            </template>
-        </v-data-table>
-    </v-sheet> -->
 </v-container>
 </template>
 
