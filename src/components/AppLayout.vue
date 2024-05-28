@@ -1,7 +1,7 @@
 <template>
     <VApp class="rounded rounded-md">
         <!-- Navigation Side Bar -->
-        <VNavigationDrawer  v-model="drawer" :rail="rail" permanent @click="rail = false"
+        <VNavigationDrawer  v-model="drawer" :rail="!rail" permanent @click="rail = true"
             style="background-color: #083049ff;">
             <v-list-item prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg" :title="userName"
                 :subtitle="userEmail" nav style="color: #f8f9fa;">
@@ -157,56 +157,6 @@ export default {
     color: whitesmoke;
 }
 
-#list-group {
-    font-size: small;
-    margin-left: -3px;
-}
-
-#list-group {
-    background-color: #083049ff;
-    color: rgba(5, 20, 40, 0.404);
-}
-
-#list-group:hover {
-    background-color: rgb(4, 13, 119);
-    margin-left: 2px;
-}
-
-#list-group::v-deep(.v-list-item__append) {
-    color: whitesmoke;
-}
-
-#list-group::v-deep(.v-list-item__prepend) {
-    color: whitesmoke;
-}
-
-#list-group::v-deep(.v-list-item__content) {
-    color: whitesmoke;
-}
-
-#list-group::v-deep(.v-list-item__overlay) {
-    background-color: #022250ff;
-    position: relative;
-}
-
-#list-group ::v-deep(.v-list-item__spacer) {
-    width: 15px;
-}
-
-#nav-list-group {
-    background-color: #083049ff;
-    color: whitesmoke;
-}
-
-#nav-list-group #nav-item ::v-deep(.v-list-item-title) {
-    font-size: larger;
-}
-
-.nav-list {
-    background-color: #083049ff;
-    color: whitesmoke;
-}
-
 .appbar {
     margin: 10px;
     border-radius: 15px;
@@ -219,38 +169,6 @@ export default {
 .menu-item:hover {
     background-color: rgb(4, 13, 119);
 }
-
-#nav-item {
-    font-size: xx-small;
-    color: rgba(5, 20, 40, 0.404);
-}
-
-#nav-item:hover {
-    background-color: rgb(4, 13, 119);
-    left: 2px;
-}
-
-#nav-item::v-deep(.v-list-item-title) {
-    font-size: small;
-}
-
-#nav-item::v-deep(.v-list-item__prepend) {
-    color: whitesmoke;
-}
-
-#nav-item::v-deep(.v-list-item__content) {
-    color: whitesmoke;
-}
-
-#nav-item::v-deep(.v-list-item__overlay) {
-    background-color: #219ebc;
-    position: relative;
-}
-
-#nav-item::v-deep(.v-list-item__spacer) {
-    width: 15px;
-}
-
 #btn-p {
     right: 2%;
     margin-right: 30px;

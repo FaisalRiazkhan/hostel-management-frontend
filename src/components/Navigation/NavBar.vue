@@ -103,12 +103,4 @@ export default {
     width: 15px;
 }
 
-#btn-p {
-    right: 2%;
-    margin-right: 30px;
-    background-color: #04724dff;
-    border: none;
-    color: rgba(5, 20, 40, 0.404);
-}
-
 </style>
