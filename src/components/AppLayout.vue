@@ -11,31 +11,7 @@
             </v-list-item>
             <v-divider />
 
-            <v-list density="compact" nav class="nav-list">
-                <router-link to="/dashboard" custom v-slot="{ href, navigate, isActive }">
-                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-apps"
-                        title="Dashboard" :class="{ 'active-tab': isActive }">
-                    </v-list-item>
-                </router-link>
-
-                <router-link v-if="isAdmin" to="/student-management" custom v-slot="{ href, navigate, isActive }">
-                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-account-circle-outline"
-                        title="Student Management" :class="{ 'active-tab': isActive }">
-                    </v-list-item>
-                </router-link>
-
-                <router-link v-if="isAdmin || isUser" to="/room-management" custom v-slot="{ href, navigate, isActive }">
-                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-bed-outline "
-                        title="Room Management" :class="{ 'active-tab': isActive }">
-                    </v-list-item>
-                </router-link>
-
-                <router-link v-if="isAdmin || isUser" to="/mess-management" custom v-slot="{ href, navigate, isActive }">
-                    <v-list-item id="nav-item" :href="href" @click="navigate" prepend-icon="mdi-food-outline"
-                        title="Mess Management" :class="{ 'active-tab': isActive }">
-                    </v-list-item>
-                </router-link>
-            </v-list>
+            <NavBar /> 
         </VNavigationDrawer>
 
         <!-- Header bar -->
@@ -62,6 +38,7 @@
 </template>
 
 <script>
+import NavBar from '@/components/Navigation/NavBar.vue';
 
 import {
     mapActions
@@ -73,8 +50,8 @@ import {
 export default {
     data() {
         return {
-            isAdmin: false,
-            isUser: false,
+            // isAdmin: false,
+            // isUser: false,
             drawer: true,
             showDropdown: false,
             rail: true,
@@ -87,9 +64,12 @@ export default {
             ],
         };
     },
-    created() {
-        this.checkUserRole();
+    components: {
+        NavBar
     },
+    // created() {
+    //     this.checkUserRole();
+    // },
     computed: {
         ...mapGetters('auth', ['isAuthenticated', 'user'], ['hasPermission']),
         userName() {
@@ -129,16 +109,16 @@ export default {
             this.selectedTab = tab;
         },
 
-        checkUserRole() {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (user && user.role && user.role.length > 0) {
-                this.isAdmin = user.role.some(role => role === 'admin');
-                this.isUser = user.role.some(role => role === 'user');
-            } else {
-                // Handle scenario where user object or roles are missing
-                console.warn('User data or roles not found in localStorage');
-            }
-        },
+        // checkUserRole() {
+        //     const user = JSON.parse(localStorage.getItem('user'));
+        //     if (user && user.role && user.role.length > 0) {
+        //         this.isAdmin = user.role.some(role => role === 'admin');
+        //         this.isUser = user.role.some(role => role === 'user');
+        //     } else {
+        //         // Handle scenario where user object or roles are missing
+        //         console.warn('User data or roles not found in localStorage');
+        //     }
+        // },
 
         async handleLogout() {
             try {

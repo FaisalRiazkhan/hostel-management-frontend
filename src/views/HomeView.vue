@@ -1,50 +1,5 @@
 <template>
-    <VApp class="rounded rounded-md">
-        <!-- header bar -->
-        <!-- <VAppBar class="appbar" id="appbartitle" :title="appBarTitle" style="background-color: #083049ff;">
-            <v-menu>
-                <template v-slot:activator="{ props }">
-                    <v-btn id="btn-p" flat v-bind="props" variant="outlined" size="small" prepend-icon="mdi-menu-down">
-                        <span>Profile</span>
-                    </v-btn>
-                </template>
-                <v-list>
-                    <v-list-item density="compact" class="menu-item" v-for="(item, index) in items" :key="index">
-                        <v-list-item-title size="small" @click="handleLogout">{{ item.title }}</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-        </VAppBar> -->
-
-        <VMain class="d-flex align-center justify-center" style="min-height: 250px; background-color: #e3dfffff;">
-            <!-- Conditional rendering based on selected tab -->
-            <template v-if="selectedTab === 'dashboard'">
-                <!-- Content for Home tab -->
-                <DashboardComp />
-            </template>
-            <template v-else-if="selectedTab === 'addStudent'">
-                <!-- Content for Add Student tab -->
-                <AdmissionForm />
-            </template>
-            <template v-else-if="selectedTab === 'listStudent'">
-                <!-- Content for Add Student tab -->
-                <ListStudents />
-            </template>
-            <template v-else-if="selectedTab === 'roomDetails'">
-                <!-- Content for roomDetails tab -->
-                <RoomDetails />
-            </template>
-            <template v-else-if="selectedTab === 'RoomManagement'">
-                <!-- Content for roomDetails tab -->
-                <RoomManagement />
-            </template>
-            <template v-else-if="selectedTab === 'hostelMess'">
-                <!-- Content for hostelMess tab -->
-                <HostelMess />
-            </template>
-
-        </VMain>
-    </VApp>
+<h1>Home Page</h1>
 </template>
 
 <script>
