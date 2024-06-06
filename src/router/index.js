@@ -17,12 +17,6 @@ const router = createRouter({
       name: 'login',
       component: LoginPage
     },
-    // {
-    //   path: '/dashboard',
-    //   name: 'home',
-    //   component: HomeView,
-    //   meta: { requiresAuth: true }
-    // },
     {
       path: '/dashboard', // Define the URL path for the new page
       name: 'Dashboard',
