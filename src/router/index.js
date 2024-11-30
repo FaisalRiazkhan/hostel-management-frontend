@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-// import LoginComp from '../views/LoginComp.vue'
 import LoginPage from '../views/LoginPage.vue'
 import store from '../store';
 import RegistrationPage from '@/views/RegistrationPage.vue';
@@ -18,17 +17,17 @@ const router = createRouter({
       name: 'login',
       component: LoginPage
     },
-    // {
-    //   path: '/dashboard',
-    //   name: 'home',
-    //   component: HomeView,
-    //   meta: { requiresAuth: true }
-    // },
     {
       path: '/dashboard', // Define the URL path for the new page
       name: 'Dashboard',
       component: Dashboard,
       meta: { requiresAuth: true }
+
+    },
+    {
+      path: '/homepage', // Define the URL path for the new page
+      name: 'HomePage',
+      component: HomeView,
 
     },
     {
@@ -57,12 +56,12 @@ const router = createRouter({
       component: MessManagement,
     },
     {
-      path: '/about',
-      name: 'about',
+      // path: '/about',
+      // name: 'about',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      // component: () => import('../views/AboutView.vue')
     }
   ]
 })
